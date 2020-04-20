@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Freshnet.Data.Builders;
+using Freshnet.Data.DataTransferObjects;
 using Freshnet.Data.Models;
 using MongoDB.Bson;
 
@@ -10,12 +12,19 @@ namespace Freshnet.Data.Services
     
     public class DocumentModelService : IDocumentModelService
     {
-        //use the database client injected here 
-        public DataServiceCreationResult Create(IDataElement dataElement)
-        {
-            DataServiceCreationResult result = new DataServiceCreationResult();
-            DocumentModel documentModel = dataElement as DocumentModel;
+        private IDatabaseClient DatabaseClient { get; set; }
+        private IDocumentModelBuilder Builder { get; set; }
 
+        public DocumentModelService(IDatabaseClient databaseClient, IDocumentModelBuilder builder)
+        {
+            DatabaseClient = databaseClient;
+            Builder = builder;
+
+        }
+
+        public IDataElement Create(object documentModelDto)
+        {
+            DocumentModelDto clientData = documentModelDto as DocumentModelDto;
             return null;
         }
         
@@ -30,6 +39,11 @@ namespace Freshnet.Data.Services
         }
 
         public IDataElement GetByAlias(string alias)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Delete(ObjectId id)
         {
             throw new System.NotImplementedException();
         }
