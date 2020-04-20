@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Freshnet.Models;
+using Freshnet.Data.Models;
 using MongoDB.Bson;
 
 namespace Freshnet.Data.Services
