@@ -1,7 +1,7 @@
 {
 	"name": "Blog Post",
-	"author_id": "Admin",
-	"property_groups": [
+	"authorId": "Admin",
+	"propertyGroups": [
 		{
 			"name": "Body",
 			"properties": [

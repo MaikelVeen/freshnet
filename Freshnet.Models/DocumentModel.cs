@@ -38,7 +38,7 @@ namespace Freshnet.Models
         
         public string AuthorId { get; set; }
 
-        public List<PropertyDefinition> Properties { get; set; }
+        public List<PropertyGroup> PropertyGroups { get; set; }
         
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
