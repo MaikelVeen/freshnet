@@ -24,6 +24,10 @@ namespace Freshnet
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
+            services.AddSingleton<IDatabaseClient, DatabaseClient>();
+            services.AddBuilderServices();
+            services.AddDataServices();
             
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
