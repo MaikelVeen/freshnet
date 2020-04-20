@@ -1,0 +1,28 @@
+{
+	"name": "Blog Post",
+	"author_id": "Admin",
+	"property_groups": [
+		{
+			"name": "Body",
+			"properties": [
+				{
+					"name": "Body Text",
+					"typeAlias": "rte"
+				}
+			]
+		},
+		{
+			"name": "SEO",
+			"properties": [
+				{
+					"name": "Meta title",
+					"typeAlias": "textstring"
+				},
+				{
+					"name": "Meta image",
+					"typeAlias": "textstring"
+				}
+			]
+		}
+	]
+}
