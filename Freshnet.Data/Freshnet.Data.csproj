@@ -8,8 +8,4 @@
       <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Freshnet.Models\Freshnet.Models.csproj" />
-    </ItemGroup>
-
 </Project>

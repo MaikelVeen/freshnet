@@ -1,4 +1,4 @@
-﻿namespace Freshnet.Models
+﻿namespace Freshnet.Data.Models
 {
     public enum PublishedState
     {

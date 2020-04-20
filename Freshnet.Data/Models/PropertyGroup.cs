@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Freshnet.Models
+namespace Freshnet.Data.Models
 {
     public class PropertyGroup
     {
