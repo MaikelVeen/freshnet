@@ -1,5 +1,5 @@
 ﻿using System;
-using Freshnet.Models;
+using Freshnet.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freshnet.Controllers
