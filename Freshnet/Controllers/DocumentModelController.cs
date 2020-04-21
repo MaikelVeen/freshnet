@@ -1,4 +1,5 @@
 ﻿using System;
+using Freshnet.Data.Builders;
 using Freshnet.Data.DataTransferObjects;
 using Freshnet.Data.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,18 @@ namespace Freshnet.Controllers
     [Route("[controller]/[action]")]
     public class DocumentModelController : ControllerBase, IMaintainable<DocumentModel, DocumentModelDto>
     {
+        private IDocumentModelBuilder DocumentModelBuilder { get; set; }
+
+        public DocumentModelController(IDocumentModelBuilder documentModelBuilder)
+        {
+            DocumentModelBuilder = documentModelBuilder;
+        }
+
         [HttpPost]
         public ActionResult<DocumentModel> Create([FromBody]DocumentModelDto obj)
         {
-            DocumentModel documentModel = new DocumentModel();
-            documentModel.Name = "Test";
+            // TO DO: Validate validity of the model before creating the model 
+            DocumentModel documentModel = DocumentModelBuilder.SetValuesFromJson(obj).GetDocumentModel();
             return documentModel;
         }
         

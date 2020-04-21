@@ -9,12 +9,12 @@ namespace Freshnet.Data.Builders
     public interface IDocumentModelBuilder
     {
         void Reset();
-        IDocumentModelBuilder SetCreationDate(DateTime date);
+        IDocumentModelBuilder SetUpdateDate(DateTime date);
         IDocumentModelBuilder SetAlias(string name);
         IDocumentModelBuilder SetVersion(int version);
         IDocumentModelBuilder SetAuthor(string author);
         IDocumentModelBuilder SetProperties(List<PropertyGroup> properties);
         IDocumentModelBuilder SetValuesFromJson(DocumentModelDto model);
-        IDocumentModel GetDocumentModel();
+        DocumentModel GetDocumentModel();
     }
 }
