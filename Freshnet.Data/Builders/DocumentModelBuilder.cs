@@ -54,7 +54,7 @@ namespace Freshnet.Data.Builders
             return this;
         }
 
-        public IDocumentModelBuilder SetValuesFromJson(DocumentModelDto model)
+        public IDocumentModelBuilder SetFromDto(DocumentModelDto model)
         {
             DocumentModel.Name = model.Name;
             DocumentModel.Alias = Alias.Generate(DocumentModel.Name);

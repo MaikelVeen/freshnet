@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Freshnet.Data.Models;
+using MongoDB.Driver;
 
 namespace Freshnet.Data
 {
@@ -9,13 +10,13 @@ namespace Freshnet.Data
     
     public class DatabaseClient : IDatabaseClient
     {
-        private readonly IDatabaseSettings _databaseSettings;
+        public IDatabaseSettings DatabaseSettings;
         public IMongoDatabase Database { get; set; }
         public MongoClient Client { get; set; }
-
+        
         public DatabaseClient(IDatabaseSettings databaseSettings)
         {
-            _databaseSettings = databaseSettings;
+            DatabaseSettings = databaseSettings;
             Client = new MongoClient(databaseSettings.ConnectionString);
             Database = Client.GetDatabase(databaseSettings.DatabaseName);
         }

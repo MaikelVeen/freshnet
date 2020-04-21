@@ -4,12 +4,12 @@ using MongoDB.Bson;
 
 namespace Freshnet.Data.Services
 {
-    public interface IDataService
+    public interface IDataService<T>
     {
-        IDataElement Create(object dataTransferObject);
-        List<IDataElement> GetAll();
-        IDataElement GetById(ObjectId id);
-        IDataElement GetByAlias(string alias);
+        T Create(T model);
+        List<T> GetAll();
+        T GetById(ObjectId id);
+        T GetByAlias(string alias);
         bool Delete(ObjectId id);
     }
 }

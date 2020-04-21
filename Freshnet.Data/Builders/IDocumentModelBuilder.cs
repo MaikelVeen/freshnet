@@ -14,7 +14,7 @@ namespace Freshnet.Data.Builders
         IDocumentModelBuilder SetVersion(int version);
         IDocumentModelBuilder SetAuthor(string author);
         IDocumentModelBuilder SetProperties(List<PropertyGroup> properties);
-        IDocumentModelBuilder SetValuesFromJson(DocumentModelDto model);
+        IDocumentModelBuilder SetFromDto(DocumentModelDto model);
         DocumentModel GetDocumentModel();
     }
 }

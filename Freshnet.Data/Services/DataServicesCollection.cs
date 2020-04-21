@@ -1,3 +1,4 @@
+using Freshnet.Data.Models;
 using Freshnet.Data.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -6,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDataServices(this IServiceCollection services)
         {
-            services.AddScoped<IDocumentModelService, DocumentModelService>();
+            services.AddScoped<IDataService<DocumentModel>, DocumentModelService>();
             return services;
         }
     }

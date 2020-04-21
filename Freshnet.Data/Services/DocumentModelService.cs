@@ -1,48 +1,44 @@
 ﻿using System.Collections.Generic;
-using Freshnet.Data.Builders;
-using Freshnet.Data.DataTransferObjects;
 using Freshnet.Data.Models;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Freshnet.Data.Services
 {
-    public interface IDocumentModelService : IDataService
+    public class DocumentModelService : IDataService<DocumentModel>
     {
-    }
-    
-    public class DocumentModelService : IDocumentModelService
-    {
-        private IDatabaseClient DatabaseClient { get; set; }
-        private IDocumentModelBuilder Builder { get; set; }
+        private DatabaseClient DatabaseClient { get; set; }
+        private IMongoCollection<DocumentModel> DocumentModels { get; set; }
 
-        public DocumentModelService(IDatabaseClient databaseClient, IDocumentModelBuilder builder)
+        public DocumentModelService(IDatabaseClient databaseClient)
         {
-            DatabaseClient = databaseClient;
-            Builder = builder;
-
-        }
-
-        public IDataElement Create(object documentModelDto)
-        {
-            DocumentModelDto clientData = documentModelDto as DocumentModelDto;
-            return null;
+            DatabaseClient = (DatabaseClient) databaseClient;
+            DocumentModels =
+                DatabaseClient.Database.GetCollection<DocumentModel>(DatabaseClient.DatabaseSettings
+                    .DocumentModelCollection);
         }
         
-        public List<IDataElement> GetAll()
+        public DocumentModel Create(DocumentModel model)
+        {
+            DocumentModels.InsertOne(model);
+            return model;
+        }
+
+        List<DocumentModel> IDataService<DocumentModel>.GetAll()
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataElement GetById(ObjectId id)
+        DocumentModel IDataService<DocumentModel>.GetById(ObjectId id)
         {
             throw new System.NotImplementedException();
         }
 
-        public IDataElement GetByAlias(string alias)
+        DocumentModel IDataService<DocumentModel>.GetByAlias(string alias)
         {
             throw new System.NotImplementedException();
         }
-
+        
         public bool Delete(ObjectId id)
         {
             throw new System.NotImplementedException();
