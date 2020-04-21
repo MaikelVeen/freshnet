@@ -12,8 +12,8 @@ namespace Freshnet.Controllers
     public interface IMaintainable<T,T1>
     {
         ActionResult<T> Create(T1 obj);
-        ActionResult<T> Retrieve(ObjectId key);
+        ActionResult<T> Get(string id);
         IActionResult Update(T1 obj);
-        IActionResult Delete(ObjectId key);
+        IActionResult Delete(string id);
     }
 }

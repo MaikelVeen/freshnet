@@ -8,8 +8,8 @@ namespace Freshnet.Data.Services
     {
         T Create(T model);
         List<T> GetAll();
-        T GetById(ObjectId id);
+        T GetById(string id);
         T GetByAlias(string alias);
-        bool Delete(ObjectId id);
+        bool Delete(string id);
     }
 }

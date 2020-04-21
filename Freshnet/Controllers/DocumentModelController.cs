@@ -31,8 +31,39 @@ namespace Freshnet.Controllers
         }
         
         [HttpGet]
-        public ActionResult<DocumentModel> Retrieve(ObjectId key)
+        public ActionResult<DocumentModel> Get(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+            
+            DocumentModel model = DocumentModelService.GetById(id);
+            return model;
+        }
+        
+        [HttpGet]
+        public ActionResult<DocumentModel> GetByAlias(string alias)
+        {
+            if (string.IsNullOrEmpty(alias))
+            {
+                return BadRequest();
+            }
+
+            DocumentModel model = DocumentModelService.GetByAlias(alias);
+            return model;
+        }
+        
+        [HttpGet]
+        public ActionResult<DocumentModel> GetAll(string alias)
+        {
+            throw new NotImplementedException();
+        }
+        
+        [HttpGet]
+        public ActionResult<DocumentModel> Overview(string alias)
+        {
+            // TO DO make overview view model
             throw new NotImplementedException();
         }
         
@@ -43,9 +74,15 @@ namespace Freshnet.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(ObjectId key)
+        public IActionResult Delete(string id)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            bool deleted = DocumentModelService.Delete(id);
+            return deleted ? Ok() : StatusCode(500);
         }
     }
 }
