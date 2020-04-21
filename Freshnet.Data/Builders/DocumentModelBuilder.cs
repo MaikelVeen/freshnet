@@ -60,6 +60,7 @@ namespace Freshnet.Data.Builders
             DocumentModel.Alias = Alias.Generate(DocumentModel.Name);
             DocumentModel.Version = 1;
             DocumentModel.AuthorId = model.AuthorId;
+            DocumentModel.UpdateDate = DateTime.Now;
             DocumentModel.PropertyGroups = GetPropertyGroups(model.PropertyGroups);
             return this;
         }
@@ -75,7 +76,7 @@ namespace Freshnet.Data.Builders
         /// </summary>
         /// <param name="dtoGroups">A collection of DataTransferObjects.PropertyGroup</param>
         /// <returns></returns>
-        private List<PropertyGroup> GetPropertyGroups(IEnumerable<DataTransferObjects.PropertyGroup> dtoGroups)
+        private static List<PropertyGroup> GetPropertyGroups(IEnumerable<DataTransferObjects.PropertyGroup> dtoGroups)
         {
             List<PropertyGroup> propertyGroups = new List<PropertyGroup>();
             
@@ -86,7 +87,9 @@ namespace Freshnet.Data.Builders
                     {
                         Alias = Alias.Generate(property.Name), 
                         Type = property.Type, 
-                        Name = property.Name
+                        Name = property.Name,
+                        Description = property.Description,
+                        Required = property.Required
                     }).ToList();
 
                 propertyGroups.Add(new PropertyGroup()
