@@ -1,10 +1,11 @@
 ﻿using System;
 using Freshnet.Data.Builders;
 using Freshnet.Data.DataTransferObjects;
+using Freshnet.Data.Exceptions;
 using Freshnet.Data.Models;
 using Freshnet.Data.Services;
+using Freshnet.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Freshnet.Controllers
 {
@@ -23,11 +24,29 @@ namespace Freshnet.Controllers
         [HttpPost]
         public ActionResult<DocumentModel> Create([FromBody]DocumentModelDto data)
         {
-            // TO DO: Validate validity of the model before creating the model 
-            // TO DO: check if build model is not null
-            DocumentModel documentModel = DocumentModelBuilder.SetFromDto(data).GetDocumentModel();
-            DocumentModelService.Create(documentModel);
-            return documentModel;
+            if (!ModelState.IsValid)
+            {
+                //TO DO: Log the invalid request 
+                ErrorResponse response = new ErrorResponse();
+                response.AppendError("Not all required fields are set on the data model", 400);
+                return Ok(response);
+            }
+
+            try
+            {
+                DocumentModel documentModel = DocumentModelBuilder.SetFromDto(data).GetDocumentModel();
+                DocumentModelService.Create(documentModel);
+                // TO DO: Log the creation of the model 
+                return documentModel;
+            }
+            catch (DocumentException documentException)
+            {
+                // TO DO log this invalid request
+                
+                ErrorResponse response = new ErrorResponse();
+                response.AppendError(documentException,400);
+                return Ok(response);
+            }
         }
         
         [HttpGet]
@@ -70,12 +89,14 @@ namespace Freshnet.Controllers
         [HttpPut]
         public IActionResult Update(DocumentModelDto obj)
         {
+            // TO DO: Log the updating of the model 
             throw new NotImplementedException();
         }
 
         [HttpDelete]
         public IActionResult Delete(string id)
         {
+            // TO DO: Log the deletion of the model 
             if (string.IsNullOrEmpty(id))
             {
                 return BadRequest();
