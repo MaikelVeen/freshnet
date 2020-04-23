@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Freshnet.Data.Exceptions;
 using Freshnet.Data.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
+// TO DO what to do when the database connection could not be made.
 namespace Freshnet.Data.Services
 {
     public class DocumentModelService : IDataService<DocumentModel>
@@ -30,12 +32,12 @@ namespace Freshnet.Data.Services
             DocumentModels.InsertOne(model);
             return model;
         }
-
+        
         public List<DocumentModel> GetAll()
         {
-            throw new System.NotImplementedException();
+            return DocumentModels.Find(Builders<DocumentModel>.Filter.Empty).ToList();
         }
-
+        
         public DocumentModel GetById(string id)
         {
             FilterDefinition<DocumentModel> filter = Builders<DocumentModel>.Filter.Eq("_id", ObjectId.Parse(id));
@@ -53,6 +55,12 @@ namespace Freshnet.Data.Services
             FilterDefinition<DocumentModel> filter = Builders<DocumentModel>.Filter.Eq("_id", ObjectId.Parse(id));
             DeleteResult deleteResult = DocumentModels.DeleteOne(filter);
             return deleteResult.IsAcknowledged;
+        }
+
+        public object Update(string id, DocumentModel model)
+        {
+            // TO DO: update this when starting to work on versioning
+            throw new NotImplementedException();
         }
     }
 }

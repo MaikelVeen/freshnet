@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Freshnet.Data.Builders;
 using Freshnet.Data.DataTransferObjects;
 using Freshnet.Data.Exceptions;
@@ -27,9 +28,8 @@ namespace Freshnet.Controllers
             if (!ModelState.IsValid)
             {
                 //TO DO: Log the invalid request 
-                ErrorResponse response = new ErrorResponse();
-                response.AppendError("Not all required fields are set on the data model", 400);
-                return Ok(response);
+                ErrorResponse errorResponse = new ErrorResponse(ModelState);
+                return BadRequest(errorResponse.Errors);
             }
 
             try
@@ -42,10 +42,9 @@ namespace Freshnet.Controllers
             catch (DocumentException documentException)
             {
                 // TO DO log this invalid request
-                
-                ErrorResponse response = new ErrorResponse();
-                response.AppendError(documentException,400);
-                return Ok(response);
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.AppendError(documentException,400);
+                return BadRequest(errorResponse);
             }
         }
         
@@ -74,9 +73,10 @@ namespace Freshnet.Controllers
         }
         
         [HttpGet]
-        public ActionResult<DocumentModel> GetAll(string alias)
+        public ActionResult<List<DocumentModel>> GetAll(string alias)
         {
-            throw new NotImplementedException();
+            List<DocumentModel> models = DocumentModelService.GetAll();
+            return models;
         }
         
         [HttpGet]

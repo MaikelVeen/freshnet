@@ -26,8 +26,8 @@ namespace Freshnet.Data.DataTransferObjects
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
-        public string Description { get; set; }
         [Required]
+        public string Description { get; set; }
         public bool Required { get; set; }
     }
 }
