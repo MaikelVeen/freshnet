@@ -15,8 +15,8 @@ namespace Freshnet.Data.Utilities
                 throw new ArgumentNullException("input", "Name of document model cannot be null");
             }
 
-            List<string> words = input.Trim().Split(" ").ToList();
-            IEnumerable<string> capitalizedWords = words.Select(word => word.FirstCharToUpper());
+            List<string> words = input.Split(" ").ToList();
+            IEnumerable<string> capitalizedWords = words.Select(word => word.Trim().FirstCharToUpper());
             
             StringBuilder stringBuilder = new StringBuilder();
             foreach (string capitalizedWord in capitalizedWords)

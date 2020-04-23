@@ -49,10 +49,5 @@ namespace Freshnet.Data.Services
             DeleteResult deleteResult = DocumentModels.DeleteOne(filter);
             return deleteResult.IsAcknowledged;
         }
-
-        public bool Delete(ObjectId id)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
