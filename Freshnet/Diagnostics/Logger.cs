@@ -82,5 +82,10 @@ namespace Freshnet.Diagnostics
                 Log.Warning(error.Message);
             }
         }
+
+        private string EnrichMessageWithCaller(string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
