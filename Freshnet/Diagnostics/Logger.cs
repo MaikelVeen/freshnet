@@ -23,7 +23,7 @@ namespace Freshnet.Diagnostics
 
             if (logToFile)
             {
-                loggerConfig.WriteTo.File("freshnet-logs.txt", rollingInterval: RollingInterval.Day);
+                loggerConfig.WriteTo.File(Configuration["Logging:FileName"], rollingInterval: RollingInterval.Day);
             }
 
             Log.Logger = loggerConfig.CreateLogger();
