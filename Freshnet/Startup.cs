@@ -1,4 +1,5 @@
 using Freshnet.Data;
+using Freshnet.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,7 @@ namespace Freshnet
                 serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             services.AddSingleton<IDatabaseClient, DatabaseClient>();
+            services.AddSingleton<ILogger, Logger>();
             services.AddBuilderServices();
             services.AddDataServices();
             
