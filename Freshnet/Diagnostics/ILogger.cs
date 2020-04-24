@@ -1,4 +1,5 @@
 ﻿using System;
+using Freshnet.Models;
 
 namespace Freshnet.Diagnostics
 {
@@ -17,5 +18,7 @@ namespace Freshnet.Diagnostics
         void Error(string message, params object[] args);
 
         void Error(Exception ex, string message, params object[] args);
+
+        void Warning(ErrorResponse errorResponse);
     }
 }

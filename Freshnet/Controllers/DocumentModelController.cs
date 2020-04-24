@@ -5,6 +5,7 @@ using Freshnet.Data.DataTransferObjects;
 using Freshnet.Data.Exceptions;
 using Freshnet.Data.Models;
 using Freshnet.Data.Services;
+using Freshnet.Diagnostics;
 using Freshnet.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +17,15 @@ namespace Freshnet.Controllers
         private IDocumentModelBuilder DocumentModelBuilder { get; set; }
         private IDataService<DocumentModel> DocumentModelService { get; set; }
 
-        public DocumentModelController(IDocumentModelBuilder documentModelBuilder, IDataService<DocumentModel> dataService)
+        private ILogger Logger { get; set; }
+
+        public DocumentModelController(IDocumentModelBuilder documentModelBuilder, 
+            IDataService<DocumentModel> dataService,
+            ILogger logger)
         {
             DocumentModelBuilder = documentModelBuilder;
             DocumentModelService = dataService;
+            Logger = logger;
         }
 
         [HttpPost]
@@ -27,8 +33,8 @@ namespace Freshnet.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TO DO: Log the invalid request 
                 ErrorResponse errorResponse = new ErrorResponse(ModelState);
+                Logger.Warning(errorResponse);
                 return BadRequest(errorResponse.Errors);
             }
 
@@ -36,12 +42,12 @@ namespace Freshnet.Controllers
             {
                 DocumentModel documentModel = DocumentModelBuilder.SetFromDto(data).GetDocumentModel();
                 DocumentModelService.Create(documentModel);
-                // TO DO: Log the creation of the model 
+                Logger.Info($"[{GetType().Name}] Document model with id ({documentModel.Id}) has been created");
                 return documentModel;
             }
             catch (DocumentException documentException)
             {
-                // TO DO log this invalid request
+                Logger.Error(documentException);
                 ErrorResponse errorResponse = new ErrorResponse();
                 errorResponse.AppendError(documentException,400);
                 return BadRequest(errorResponse);
@@ -53,7 +59,10 @@ namespace Freshnet.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                return BadRequest();
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.AppendError($"Id parameter is required for route {HttpContext.Request.Path}", 403);
+                Logger.Warning(errorResponse);
+                return BadRequest(errorResponse.Errors);
             }
             
             DocumentModel model = DocumentModelService.GetById(id);
@@ -65,7 +74,10 @@ namespace Freshnet.Controllers
         {
             if (string.IsNullOrEmpty(alias))
             {
-                return BadRequest();
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.AppendError($"Alias parameter is required for route {HttpContext.Request.Path}", 403);
+                Logger.Warning(errorResponse);
+                return BadRequest(errorResponse.Errors);
             }
 
             DocumentModel model = DocumentModelService.GetByAlias(alias);
@@ -96,10 +108,12 @@ namespace Freshnet.Controllers
         [HttpDelete]
         public IActionResult Delete(string id)
         {
-            // TO DO: Log the deletion of the model 
             if (string.IsNullOrEmpty(id))
             {
-                return BadRequest();
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.AppendError($"Id parameter is required for route {HttpContext.Request.Path}", 403);
+                Logger.Warning(errorResponse);
+                return BadRequest(errorResponse.Errors);
             }
 
             bool deleted = DocumentModelService.Delete(id);
