@@ -1,13 +1,13 @@
 {
 	"name": "Blog Post",
-	"author_id": "Admin",
-	"property_groups": [
+	"authorId": "Admin",
+	"propertyGroups": [
 		{
 			"name": "Body",
 			"properties": [
 				{
 					"name": "Body Text",
-					"typeAlias": "rte"
+					"type": "rte"
 				}
 			]
 		},
@@ -16,11 +16,11 @@
 			"properties": [
 				{
 					"name": "Meta title",
-					"typeAlias": "textstring"
+					"type": "textstring"
 				},
 				{
 					"name": "Meta image",
-					"typeAlias": "textstring"
+					"type": "textstring"
 				}
 			]
 		}

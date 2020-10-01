@@ -1,37 +1,66 @@
-﻿using System.Collections.Generic;
-using Freshnet.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Freshnet.Data.Exceptions;
+using Freshnet.Data.Models;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
+// TO DO what to do when the database connection could not be made.
 namespace Freshnet.Data.Services
 {
-    public interface IDocumentModelService : IDataService
+    public class DocumentModelService : IDataService<DocumentModel>
     {
-    }
-    
-    public class DocumentModelService : IDocumentModelService
-    {
-        //use the database client injected here 
-        public DataServiceCreationResult Create(IDataElement dataElement)
-        {
-            DataServiceCreationResult result = new DataServiceCreationResult();
-            DocumentModel documentModel = dataElement as DocumentModel;
+        private DatabaseClient DatabaseClient { get; set; }
+        private IMongoCollection<DocumentModel> DocumentModels { get; set; }
 
-            return null;
+        public DocumentModelService(IDatabaseClient databaseClient)
+        {
+            DatabaseClient = (DatabaseClient) databaseClient;
+            DocumentModels =
+                DatabaseClient.Database.GetCollection<DocumentModel>(DatabaseClient.DatabaseSettings
+                    .DocumentModelCollection);
         }
         
-        public List<IDataElement> GetAll()
+        public DocumentModel Create(DocumentModel model)
         {
-            throw new System.NotImplementedException();
+            if (this.GetByAlias(model.Alias) != null)
+            {
+                throw new DocumentException($"Document model with alias {model.Alias} already exists.");
+            }
+            
+            DocumentModels.InsertOne(model);
+            return model;
+        }
+        
+        public List<DocumentModel> GetAll()
+        {
+            return DocumentModels.Find(Builders<DocumentModel>.Filter.Empty).ToList();
+        }
+        
+        public DocumentModel GetById(string id)
+        {
+            FilterDefinition<DocumentModel> filter = Builders<DocumentModel>.Filter.Eq("_id", ObjectId.Parse(id));
+            return DocumentModels.Find(filter).ToList().FirstOrDefault();
         }
 
-        public IDataElement GetById(ObjectId id)
+        public DocumentModel GetByAlias(string alias)
         {
-            throw new System.NotImplementedException();
+            FilterDefinition<DocumentModel> filter = Builders<DocumentModel>.Filter.Eq(document => document.Alias, alias);
+            return DocumentModels.Find(filter).ToList().FirstOrDefault();
         }
 
-        public IDataElement GetByAlias(string alias)
+        public bool Delete(string id)
         {
-            throw new System.NotImplementedException();
+            FilterDefinition<DocumentModel> filter = Builders<DocumentModel>.Filter.Eq("_id", ObjectId.Parse(id));
+            DeleteResult deleteResult = DocumentModels.DeleteOne(filter);
+            return deleteResult.IsAcknowledged;
+        }
+
+        public object Update(string id, DocumentModel model)
+        {
+            // TO DO: update this when starting to work on versioning
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Freshnet.Models
+namespace Freshnet.Data.Models
 {
-    public class DocumentModel : IDocumentModel
+    public class DocumentModel
     {
         public DocumentModel()
         {
@@ -35,29 +35,9 @@ namespace Freshnet.Models
         /// Current version of the 
         /// </summary>
         public int Version { get; set; }
-        
         public string AuthorId { get; set; }
-
-        public List<PropertyDefinition> Properties { get; set; }
-        
-        public DateTime CreationDate { get; set; }
+        public List<PropertyGroup> PropertyGroups { get; set; }
         public DateTime UpdateDate { get; set; }
         
-        public bool Update(IDocumentModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GenerateAlias(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException("name", "Name of document model cannot be null");
-            }
-            
-            StringBuilder stringBuilder = new StringBuilder(name.Trim());
-            stringBuilder[0] = char.ToLower(stringBuilder[0]);
-            return stringBuilder.ToString();
-        }
     }
 }

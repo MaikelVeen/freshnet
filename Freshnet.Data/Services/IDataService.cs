@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using Freshnet.Models;
+using Freshnet.Data.Models;
 using MongoDB.Bson;
 
 namespace Freshnet.Data.Services
 {
-    public interface IDataService
+    public interface IDataService<T>
     {
-        DataServiceCreationResult Create(IDataElement dataElement);
-        List<IDataElement> GetAll();
-        IDataElement GetById(ObjectId id);
-        IDataElement GetByAlias(string alias);
+        T Create(T model);
+        List<T> GetAll();
+        T GetById(string id);
+        T GetByAlias(string alias);
+        bool Delete(string id);
     }
 }

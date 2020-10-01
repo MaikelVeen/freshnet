@@ -1,4 +1,5 @@
 using Freshnet.Data;
+using Freshnet.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,11 @@ namespace Freshnet
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
+            services.AddSingleton<IDatabaseClient, DatabaseClient>();
+            services.AddSingleton<ILogger, Logger>();
+            services.AddBuilderServices();
+            services.AddDataServices();
             
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
